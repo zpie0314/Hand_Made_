@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELORA ATELIER | Bespoke Candles & Ceremonial Décor</title>
+    <meta name="description" content="Hand-poured soy candles and bespoke wedding décor designed for sacred celebrations.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. DESIGN TOKENS & RESET
+           ========================================= */
+        :root {
+            /* Palette: Warm, Stone, Ceremonial */
+            --bg-body: #FDFCF8;       /* Warm Ivory */
+            --bg-stone: #EBE9E4;      /* Muted Beige */
+            --bg-sage: #D6DBD2;       /* Soft Green/Grey */
+            --bg-dark: #1C1B1A;       /* Warm Charcoal */
+
+            --text-main: #1C1B1A;
+            --text-muted: #5e5b58;
+            --text-light: #F9F7F2;
+
+            --accent-gold: #C2A878;   /* Muted Champagne Gold */
+            --accent-sage: #7A8B82;
+
+            /* Typography */
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+
+            /* Spacing */
+            --space-sm: 1.5rem;
+            --space-md: 3rem;
+            --space-lg: 6rem;
+            --space-xl: 10rem;
+
+            /* Animation */
+            --trans-slow: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            --trans-med: all 0.4s ease-out;
+            --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Typography Utilities */
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            line-height: 1.1;
+        }
+
+        .heading-xl {
+            font-size: clamp(3rem, 5vw, 5.5rem);
+            letter-spacing: -0.02em;
+        }
+
+        .heading-lg {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .heading-md {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .overline {
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .body-lg {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            transition: var(--trans-med);
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .btn:hover {
+            background: var(--text-main);
+            color: var(--bg-body);
+        }
+
+        .btn-primary {
+            background: var(--text-main);
+            color: var(--bg-body);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: var(--bg-body);
+        }
+
+        /* =========================================
+           2. STRUCTURE & LAYOUT
+           ========================================= */
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: var(--trans-slow);
+        }
+
+        nav.scrolled {
+            background: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; }
+
+        /* Mobile Menu */
+        .menu-toggle { display: none; cursor: pointer; }
+
+        /* 1. Hero Section */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background-color: var(--bg-stone);
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Warm, candle-lit imagery */
+            background-image: url('https://images.unsplash.com/photo-1602606822896-1c0805156649?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.9;
+            filter: contrast(0.9) brightness(0.95);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(253,252,248,0.4) 0%, rgba(253,252,248,0.1) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        .hero-btn-group {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* 2. Brand Essence */
+        .brand-story {
+            padding: var(--space-xl) 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        .story-img-wrapper {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 4px; /* Slight softening */
+        }
+
+        .story-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+
+        .story-img-wrapper:hover .story-img { transform: scale(1.05); }
+
+        /* 3. Collections Grid */
+        .collections {
+            padding: var(--space-lg) 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card-img-wrapper {
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background: var(--bg-stone);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--trans-slow);
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.08);
+            opacity: 0.9;
+        }
+
+        .card-info {
+            text-align: center;
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .card:hover .card-link { border-color: var(--accent-gold); color: var(--text-main); }
+
+        /* 4. Wedding Section */
+        .wedding-feature {
+            background-color: var(--bg-stone);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            min-height: 80vh;
+        }
+
+        .wedding-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Table setting imagery */
+            background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .wedding-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-lg);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 2rem 0;
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .feature-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .feature-list li::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+        }
+
+        /* 5. Ingredients & Trust */
+        .ingredients {
+            padding: var(--space-lg) 10%;
+            background: var(--bg-body);
+            text-align: center;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .trust-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1.5rem;
+            stroke: var(--text-main);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        /* 6. Bespoke/Bulk */
+        .bespoke {
+            padding: var(--space-xl) 5%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .bespoke h2, .bespoke p, .bespoke .overline {
+            color: var(--text-light);
+        }
+        
+        .bespoke .btn {
+            border-color: var(--text-light);
+            color: var(--text-light);
+        }
+        .bespoke .btn:hover {
+            background: var(--text-light);
+            color: var(--bg-dark);
+        }
+
+        /* 7. Testimonials */
+        .testimonials {
+            padding: var(--space-lg) 5%;
+            background: var(--bg-sage); /* Subtle green tint */
+            text-align: center;
+        }
+
+        .quote-card {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-body);
+            padding: var(--space-lg) 5% 2rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-links a:hover { color: var(--text-main); }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .brand-story, .wedding-feature { grid-template-columns: 1fr; }
+            .wedding-img { height: 400px; order: -1; }
+            .hero-bg { background-position: 70% center; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .heading-xl { font-size: 3rem; }
+            .nav-links { display: none; }
+            .menu-toggle { display: block; font-family: var(--font-serif); font-style: italic; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="#" class="logo">VELORA ATELIER</a>
+        <div class="nav-links">
+            <a href="#collections">Collections</a>
+            <a href="#weddings">Weddings</a>
+            <a href="#bespoke">Bespoke</a>
+            <a href="#ingredients">Our Craft</a>
+        </div>
+        <div class="menu-toggle">Menu</div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="overline" style="color: #4a4a4a;">Handcrafted in India</span>
+            <h1 class="heading-xl">Crafted for Moments <br> <span style="font-style: italic;">That Matter</span></h1>
+            <p class="body-lg" style="margin-top: 1.5rem; color: #333;">
+                Hand-poured soy candles designed for weddings, rituals, and refined living.
+            </p>
+            <div class="hero-btn-group">
+                <a href="#collections" class="btn btn-primary">Explore Collection</a>
+                <a href="#weddings" class="btn">Wedding Catalogue</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="story" class="brand-story">
+        <div class="story-text reveal">
+            <span class="overline">The Essence</span>
+            <h2 class="heading-lg">An Atelier of <span style="font-style: italic;">Light & Intention</span></h2>
+            <p class="body-lg" style="margin-bottom: 1.5rem;">
+                Velora Atelier was born from a desire to slow down. In a world of mass production, we choose the path of the artisan. Every candle is poured by hand in small batches, using 100% natural soy wax and fragrances that respect your home.
+            </p>
+            <p class="body-lg">
+                Whether it is a solitary evening ritual or a grand wedding celebration, our lights are designed to honor the ceremony of the moment.
+            </p>
+        </div>
+        <div class="story-img-wrapper reveal">
+            <img src="https://images.unsplash.com/photo-1608142172777-a649989d6e85?q=80&w=1974&auto=format&fit=crop" alt="Hand pouring candles" class="story-img">
+        </div>
+    </section>
+
+    <section id="collections" class="collections">
+        <div class="section-header reveal">
+            <h2 class="heading-lg">Signature <span style="font-style: italic;">Series</span></h2>
+        </div>
+        
+        <div class="grid-4">
+            <div class="card reveal">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=1974&auto=format&fit=crop" alt="Wedding Favours" class="card-img">
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">The Wedding Edit</h3>
+                    <span class="card-link">View Favours</span>
+                </div>
+            </div>
+
+            <div class="card reveal" style="transition-delay: 0.1s;">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1596436214532-6804dc66bc90?q=80&w=1974&auto=format&fit=crop" alt="Scented Jars" class="card-img">
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">Home Sanctuary</h3>
+                    <span class="card-link">Shop Candles</span>
+                </div>
+            </div>
+
+            <div class="card reveal" style="transition-delay: 0.2s;">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1616428796853-488cb62d854e?q=80&w=1974&auto=format&fit=crop" alt="Sculptural Candles" class="card-img">
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">Sculptural Décor</h3>
+                    <span class="card-link">View Sculptures</span>
+                </div>
+            </div>
+
+            <div class="card reveal" style="transition-delay: 0.3s;">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=2070&auto=format&fit=crop" alt="Gift Sets" class="card-img">
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">Curated Gifting</h3>
+                    <span class="card-link">Shop Sets</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="weddings" class="wedding-feature">
+        <div class="wedding-img"></div>
+        <div class="wedding-content reveal">
+            <span class="overline">For Your Special Day</span>
+            <h2 class="heading-lg">Designed for <br><span style="font-style: italic;">Sacred Celebrations</span></h2>
+            <p class="body-lg">
+                Light connects us. Offer your guests a token of warmth that lingers long after the day is done. We specialize in luxury wedding favours tailored to your palette.
+            </p>
+            
+            <ul class="feature-list">
+                <li>Custom monograms & label design</li>
+                <li>Scent curation to match your theme</li>
+                <li>Premium gift packaging</li>
+                <li>Timely delivery across India</li>
+            </ul>
+
+            <a href="#" class="btn btn-primary" style="align-self: flex-start;">Plan Your Wedding Order</a>
+        </div>
+    </section>
+
+    <section id="ingredients" class="ingredients">
+        <span class="overline">The Promise</span>
+        <h2 class="heading-lg">Pure <span style="font-style: italic;">Origins</span></h2>
+        
+        <div class="trust-grid reveal">
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24"><path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9H9.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 9H15.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <h4 class="heading-md" style="font-size: 1.25rem;">100% Soy Wax</h4>
+                <p class="body-lg" style="font-size: 0.9rem;">Ethically sourced, biodegradable, and burns cleaner than paraffin.</p>
+            </div>
+            
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24"><path d="M2 12H22" stroke-width="1.5" stroke-linecap="round"/><path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5V19C15 20.6569 13.6569 22 12 22C10.3431 22 9 20.6569 9 19V5C9 3.34315 7.65685 2 6 2C4.34315 2 3 3.34315 3 5C3 6.65685 4.34315 8 6 8" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <h4 class="heading-md" style="font-size: 1.25rem;">Asthma Safe</h4>
+                <p class="body-lg" style="font-size: 0.9rem;">Free from phthalates and heavy toxins. Gentle on sensitive lungs.</p>
+            </div>
+
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24"><path d="M12 22C12 22 16 18 16 12C16 8 13.5 2 12 2C10.5 2 8 8 8 12C8 18 12 22 12 22Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <h4 class="heading-md" style="font-size: 1.25rem;">Cotton Wicks</h4>
+                <p class="body-lg" style="font-size: 0.9rem;">Lead-free wicks for a steady, soot-free flame and golden glow.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="bespoke" class="bespoke">
+        <div class="reveal">
+            <span class="overline">Corporate & Bulk</span>
+            <h2 class="heading-lg">The Art of <span style="font-style: italic;">Giving</span></h2>
+            <p class="body-lg" style="max-width: 600px; margin: 0 auto 3rem;">
+                From corporate milestones to luxury return gifts, we craft bespoke scented experiences that leave a lasting impression.
+            </p>
+            <a href="#" class="btn">Request Custom Quote</a>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="quote-card reveal">
+            <p class="quote-text">“The candles from Velora made our reception feel so intimate. The scent was subtle yet luxurious, and the guests loved the custom jars.”</p>
+            <span class="overline" style="color: var(--text-main);">— Ananya & Rahul, New Delhi</span>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-branding">
+                <span class="footer-logo">VELORA ATELIER</span>
+                <p class="body-lg" style="font-size: 0.9rem; margin-bottom: 2rem;">
+                    Light that becomes a memory.<br>
+                    Handcrafted in India, for the world.
+                </p>
+                <a href="#" class="btn" style="padding: 0.8rem 1.5rem; font-size: 0.75rem;">DM to Order</a>
+            </div>
+            
+            <div class="footer-links">
+                <span class="overline">Shop</span>
+                <ul>
+                    <li><a href="#">Wedding Collection</a></li>
+                    <li><a href="#">Home Fragrance</a></li>
+                    <li><a href="#">Gift Sets</a></li>
+                    <li><a href="#">Wholesale</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <span class="overline">Atelier</span>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Ingredient Glossary</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 0.75rem; color: #999; border-top: 1px solid #eee; padding-top: 2rem;">
+            &copy; 2024 Velora Atelier. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Scroll Animation Observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Unobserve to only animate once
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => observer.observe(el));
+
+            // 2. Navbar State
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // 3. Smooth Scroll for Anchor Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
